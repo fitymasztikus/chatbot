@@ -1,9 +1,11 @@
 from flask import Flask, render_template_string, request
 import google.generativeai as genai
+import os
 
 app = Flask(__name__)
 
-genai.configure(api_key="AIzaSyDTKf_PGQiUU9ijHHDNdFG1x2hLu3jd4Oc")
+# API kulcs környezeti változóból
+genai.configure(api_key=os.environ.get("GOOGLE_API_KEY"))
 model = genai.GenerativeModel("gemini-2.5-flash")
 
 HTML = """
@@ -56,7 +58,6 @@ HTML = """
 </html>
 """
 
-# Egyszerű chat history tárolás (session nélkül, csak az aktuális oldalon)
 messages = []
 
 @app.route("/", methods=["GET", "POST"])
@@ -72,7 +73,4 @@ def index():
             except Exception as e:
                 bot_text = f"Hiba történt: {e}"
             messages.append({"role": "bot", "text": bot_text})
-    return render_template_string(HTML, messages=messages)
-
-if __name__ == "__main__":
-    app.run(debug=True)
+    return
