@@ -1,11 +1,9 @@
-from flask import Flask, render_template_string, request, session
+from flask import Flask, render_template_string, request
 import google.generativeai as genai
-import os
 
 app = Flask(__name__)
-app.secret_key = "egy_titkos_kulcs_ide"  # ezt cseréld le biztonságos értékre!
 
-genai.configure(api_key=os.environ.get("GOOGLE_API_KEY", "AIzaSyDTKf_PGQiUU9ijHHDNdFG1x2hLu3jd4Oc"))
+genai.configure(api_key="AIzaSyDTKf_PGQiUU9ijHHDNdFG1x2hLu3jd4Oc")
 model = genai.GenerativeModel("gemini-2.5-flash")
 
 HTML = """
@@ -48,20 +46,22 @@ HTML = """
         <div class="footer">Készítette: Kiss Gergő</div>
     </div>
     <script>
-        window.onload = function() {
+        function scrollChatToBottom() {
             var chatDiv = document.getElementById('chatbox');
             chatDiv.scrollTop = chatDiv.scrollHeight;
         }
+        window.onload = scrollChatToBottom;
+        window.onpageshow = scrollChatToBottom;
     </script>
 </body>
 </html>
 """
 
+messages = []
+
 @app.route("/", methods=["GET", "POST"])
 def index():
-    if "messages" not in session:
-        session["messages"] = []
-    messages = session["messages"]
+    global messages
     if request.method == "POST":
         user_input = request.form.get("user_input")
         if user_input:
@@ -72,8 +72,6 @@ def index():
             except Exception as e:
                 bot_text = f"Hiba történt: {e}"
             messages.append({"role": "bot", "text": bot_text})
-        session["messages"] = messages
     return render_template_string(HTML, messages=messages)
 
 if __name__ == "__main__":
-    app.run(debug=True)
