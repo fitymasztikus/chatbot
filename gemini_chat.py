@@ -33,7 +33,7 @@ HTML = """
         <div class="chat" id="chatbox">
             {% for msg in messages %}
                 {% if msg.role == 'user' %}
-                    <div class="bubble user">🧑 {{ msg.text }}</div>
+                    <div class="bubble user">😊 {{ msg.text }}</div>
                 {% else %}
                     <div class="bubble bot">🤖 {{ msg.text }}</div>
                 {% endif %}
@@ -76,3 +76,4 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
