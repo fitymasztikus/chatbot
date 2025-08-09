@@ -73,4 +73,7 @@ def index():
             except Exception as e:
                 bot_text = f"Hiba történt: {e}"
             messages.append({"role": "bot", "text": bot_text})
-    return
+    return render_template_string(HTML, messages=messages)
+
+if __name__ == "__main__":
+    app.run(debug=True)
