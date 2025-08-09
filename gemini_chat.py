@@ -4,8 +4,8 @@ import os
 
 app = Flask(__name__)
 
-# API kulcs környezeti változóból
-genai.configure(api_key=os.environ.get("GOOGLE_API_KEY"))
+# API kulcs környezeti változóból (Renderen így biztonságos)
+genai.configure(api_key=os.environ.get("GOOGLE_API_KEY", "AIzaSyDTKf_PGQiUU9ijHHDNdFG1x2hLu3jd4Oc"))
 model = genai.GenerativeModel("gemini-2.5-flash")
 
 HTML = """
@@ -16,17 +16,17 @@ HTML = """
     <title>Chatbot</title>
     <style>
         body { background: linear-gradient(135deg, #00BFA5 0%, #23272F 100%); color: #eee; font-family: 'Segoe UI', sans-serif; }
-        .container { max-width: 480px; margin: 60px auto; background: #23272Fcc; border-radius: 18px; padding: 32px; box-shadow: 0 8px 32px #0006; display: flex; flex-direction: column; height: 600px; }
-        h2 { text-align: center; margin-bottom: 24px; color: #00BFA5; }
-        .chat { margin-top: 12px; display: flex; flex-direction: column; max-height: 400px; overflow-y: auto; flex: 1; }
-        .bubble { margin-bottom: 16px; padding: 14px 18px; border-radius: 14px; max-width: 80%; }
+        .container { max-width: 480px; margin: 40px auto; background: #23272Fcc; border-radius: 18px; padding: 20px; box-shadow: 0 8px 32px #0006; display: flex; flex-direction: column; height: 390px; }
+        h2 { text-align: center; margin-bottom: 16px; color: #00BFA5; }
+        .chat { margin-top: 8px; display: flex; flex-direction: column; max-height: 260px; overflow-y: auto; flex: 1; }
+        .bubble { margin-bottom: 12px; padding: 10px 14px; border-radius: 12px; max-width: 80%; }
         .user { background: #00BFA5; color: #23272F; text-align: right; align-self: flex-end; }
         .bot { background: #181A20; color: #00BFA5; text-align: left; border: 1px solid #00BFA5; align-self: flex-start; }
-        form { display: flex; gap: 8px; margin-top: 16px; }
-        input[type=text] { flex: 1; padding: 12px; border-radius: 10px; border: none; background: #333; color: #eee; font-size: 1em; }
-        button { padding: 12px 24px; border-radius: 10px; border: none; background: #00BFA5; color: white; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+        form { display: flex; gap: 8px; margin-top: 10px; }
+        input[type=text] { flex: 1; padding: 8px; border-radius: 8px; border: none; background: #333; color: #eee; font-size: 1em; }
+        button { padding: 8px 16px; border-radius: 8px; border: none; background: #00BFA5; color: white; font-weight: bold; cursor: pointer; transition: background 0.2s; }
         button:hover { background: #009e88; }
-        .footer { color: #616161; font-size: 10pt; text-align: center; margin-top: 16px; }
+        .footer { color: #616161; font-size: 9pt; text-align: center; margin-top: 8px; }
     </style>
 </head>
 <body>
@@ -48,7 +48,6 @@ HTML = """
         <div class="footer">Készítette: Kiss Gergő</div>
     </div>
     <script>
-        // Automatikus görgetés a chat aljára
         window.onload = function() {
             var chatDiv = document.getElementById('chatbox');
             chatDiv.scrollTop = chatDiv.scrollHeight;
