@@ -75,3 +75,4 @@ def index():
     return render_template_string(HTML, messages=messages)
 
 if __name__ == "__main__":
+    app.run(debug=True)
